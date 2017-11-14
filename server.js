@@ -8,6 +8,7 @@ var axios = require("axios");
 var cheerio = require ("cheerio");
 
 var db = require("./models");
+var exphbs  = require('express-handlebars');
 
 var PORT = 3000;
 
@@ -22,9 +23,13 @@ mongoose.connect("mongodb://localhost/newscraper", {
   useMongoClient: true
 });
 
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+app.use(express.static("public"));
+
 // scrape route- add url
 app.get("/api/scrape", function(req,res) {
-
   axios.get("https://www.nytimes.com/").then(function(response) {
 
     var $ = cheerio.load(response.data);
@@ -33,8 +38,8 @@ app.get("/api/scrape", function(req,res) {
 
     var result = {};
 
-      result.headline = $(this).find("h2").find("a").text().replace(/\s/g,'');
-      result.summary = $(this).find("p.summary").text().replace(/\s/g,'');
+      result.headline = $(this).find("h2").find("a").text();
+      result.summary = $(this).find("p.summary").text();
       result.url = $(this).find("h2").find("a").attr("href");
       
       console.log(result);
@@ -46,19 +51,21 @@ app.get("/api/scrape", function(req,res) {
         res.send("scrape complete");
       })
       .catch(function(err){
-        res.json(err);
+        console.log(err);
       });
     });
   });
 });
 
 // GET route return all articles
-app.get("/articles", function(req, res) {
+app.get("/", function(req, res) {
 
   db.Article
   .find({})
   .then(function(dbArticle) {
-    res.json(dbArticle);
+    console.log(dbArticle);
+
+    res.render("home", {articles : dbArticle});
   })
   .catch(function(err) {
     res.json(err);
