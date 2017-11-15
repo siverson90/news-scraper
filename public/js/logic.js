@@ -12,6 +12,20 @@ $( document ).ready(function() {
     })
 
     $(".save-article").on("click", function(result) {
-        console.log("save button clicked")
+
+        var article = $(this).attr('id');
+
+        var obj = {
+            id: article
+        }
+        // ajax call for put 
+        $.ajax({
+          url: "api/saved",
+          data: obj,
+          method: "PUT"
+        }).done(function(dbSaved) {
+          console.log(dbSaved);
+          console.log("ajax hit")
+        });
     })
 });

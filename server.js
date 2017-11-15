@@ -85,8 +85,21 @@ app.get("/articles/:id", function(req, res) {
   });
 });
 
+app.put("/api/saved", function(req,res) {
+
+  console.log(req.body.id)
+  console.log("saved route hit");
+  
+  db.Article
+  .findOneAndUpdate(
+    {_id: req.body.id}, 
+    {$set: {"saved": true}
+  }).then(function(dbResponse){
+    res.send("article has been updated");
+  });
+});
 // Post create new note associated with Article PUSH to array
-app.post("/articles/:id", function(req,res) {
+app.post("/api/note", function(req,res) {
   db.note
   .create(req.body)
   .then(function(dbNote) {
