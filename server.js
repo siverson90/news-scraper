@@ -72,25 +72,13 @@ app.get("/", function(req, res) {
   });
 });
 
-// GET all notes based on specific ID of article
-app.get("/articles/:id/note", function(req, res) {
-  db.Article
-  .findOne({ _id: req.params.id})
-  .populate("note")
-  .then(function(dbArticle){
-    res.json(dbArticle)
-  })
-  .catch(function(err) {
-    res.json(err);
-  });
-});
-
 app.get("/saved", function(req,res) {
 
   db.Article
   .find({saved: true})
+  .populate("note")
   .then(function(dbSavedArticle) {
-    // console.log(dbSavedArticle)
+    console.log(dbSavedArticle)
     res.render("saved", {articles : dbSavedArticle})
   })
   .catch(function(err) {

@@ -1,4 +1,4 @@
-<div id="myModal" class="modal fade" role="dialog">
+<div id="{{this._id}}"class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -11,9 +11,9 @@
         <div>
           <div>
             <p>saved notes here</p>
-            {{!-- {{#each notes}}
+            {{#each articles}}
               {{>saved-notes}}
-            {{/each}} --}}
+            {{/each}}
           </div>
         </div>
         <input type="text" class="note-title" name="title" placeholder="add title">
