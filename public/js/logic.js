@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+    // scrape for new articles
     $("#scrape-btn").on("click", function(event) {
         // console.log("button clicked");
         $.get("/api/scrape", function(result) {
@@ -6,11 +7,11 @@ $( document ).ready(function() {
         });
     });
 
-        // console.log("button clicked");
-    $.get("/articles/saved", function(result) {
+    // client-side: getting all saved articles
+    $.get("/saved", function(result) {
         console.log("api GET route hit");
     })
-
+    // client-side: saving article as read
     $(".save-article").on("click", function(result) {
 
         var article = $(this).attr('id');
@@ -20,12 +21,49 @@ $( document ).ready(function() {
         }
         // ajax call for put 
         $.ajax({
-          url: "api/saved",
+          url: "api/note/saved",
           data: obj,
           method: "PUT"
         }).done(function(dbSaved) {
-          console.log(dbSaved);
-          console.log("ajax hit")
+            
+            // Need to refresh page
+            location.reload();
         });
     })
+
+    // client-side: remove article from saved list
+    $(".remove-notes-btn").on("click", function(result) {
+
+        console.log("remove note hit");
+
+        var article = $(this).data('id');
+
+        var obj = {
+            id: article
+        }
+
+        $.ajax({
+          url: "api/note/remove",
+          data: obj,
+          method: "PUT"
+        }).done(function(dbSaved) {
+          // console.log(dbSaved);
+          location.reload();
+        });
+    })
+
+    $(".article-notes-btn").on("click", function(result){
+        console.log("create note button");
+
+        var articleId = $(this).data('id');
+        console.log(articleId);
+
+        $.get("/api/notes/" + articleId, function(result){
+
+        })
+    })
+
+    // client-side: create a note for an article and show existing notes
+
+    // client-side: deleted note
 });
