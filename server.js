@@ -65,7 +65,7 @@ app.get("/", function(req, res) {
   .then(function(dbArticle) {
     console.log(dbArticle);
 
-    res.render("home", {articles : dbArticle});
+    res.render("articles", {articles : dbArticle});
   })
   .catch(function(err) {
     res.json(err);
@@ -85,6 +85,20 @@ app.get("/articles/:id", function(req, res) {
   });
 });
 
+app.get("/saved", function(req,res) {
+
+  db.Article
+  .find({saved: true})
+  .then(function(dbSavedArticle) {
+    console.log(dbSavedArticle)
+    res.render("saved", {articles : dbSavedArticle})
+  })
+  .catch(function(err) {
+    res.json(err);
+  });
+});
+
+// Make article as saved in DB
 app.put("/api/saved", function(req,res) {
 
   console.log(req.body.id)
