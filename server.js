@@ -120,7 +120,7 @@ app.get("/api/notes/:id", function(req, res){
   .findOne({_id: req.params.id})
   .populate("note")
   .then(function(dbArticle){
-    res.render("home", {notes: dbArticle});
+    res.render("saved", {notes: dbArticle});
   })
   .catch(function(err) {
     res.json(err);
@@ -128,11 +128,17 @@ app.get("/api/notes/:id", function(req, res){
 })
 // Post create new note associated with Article PUSH to array
 app.post("/api/note", function(req,res) {
-  db.note
-  .create(req.body)
+  
+  var newNote = {
+    title:req.body.title,
+    body: req.body.body
+  }
+
+  db.Note
+  .create(newNote)
   .then(function(dbNote) {
     return db.Article.findOneAndUpdate({
-       _id: req.params.id }, { note: dbNote._id }, { new: true });
+       _id: req.body.articleId }, { $push: { note: dbNote._id }}, { new: true });
     })
   .then(function(dbArticle) {
     res.json(dbArticle);

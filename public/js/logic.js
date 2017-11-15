@@ -60,8 +60,37 @@ $( document ).ready(function() {
 
         $.get("/api/notes/" + articleId, function(result){
 
+            sendArticleId(articleId);
         })
     })
+
+    function sendArticleId(articleId){
+        
+        $(".save-note").on("click", function(event) {
+            console.log("saved note button clicked");
+
+            console.log(articleId);
+            
+            const title = $(".note-title").val();
+            const body = $(".note-body").val();
+
+            var noteObj = {
+                articleId: articleId,
+                title: title,
+                body: body
+            }
+            
+            $.ajax({
+                method: "POST",
+                url: "/api/note",
+                data: noteObj
+            })
+            .done(function(data){
+                console.log(data);
+            });
+        });
+    }
+    
 
     // client-side: create a note for an article and show existing notes
 

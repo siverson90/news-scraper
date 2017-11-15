@@ -5,14 +5,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-        {{!-- {{#each notes}}
-          {{>saved-notes}}
-        {{/each}} --}}
+        <h4 class="modal-title">Saved Articles</h4>
       </div>
       <div class="modal-body">
-        <input type="text">
-
+        <div>
+          <div>
+            <p>saved notes here</p>
+            {{!-- {{#each notes}}
+              {{>saved-notes}}
+            {{/each}} --}}
+          </div>
+        </div>
+        <input type="text" class="note-title" name="title" placeholder="add title">
+        <input type="textbox" class="note-body" name="note-body" placeholder="add message">
+        <button type="button" class="save-note" data-id="{{this._id}}">Save Note</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
