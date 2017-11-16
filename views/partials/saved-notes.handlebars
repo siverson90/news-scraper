@@ -1,8 +1,13 @@
-{{!-- <div class="wrapper">
-  <div class="container">
-    <div>{{this.title}}</div>
-    <div>
-      <button id= "delete note"data-id="{{this._id}}">Remove note</button>
+{{#each note}}
+  <div class="wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-4-md">{{this.title}}</div>
+        <div class="col-4-md">{{this.body}}</div>
+        <div class="col-4-md">
+          <button class="delete-note" data-id="{{this._id}}">Remove note</button>
+        </div>
+      </div>
     </div>
   </div>
-</div> --}}
+{{/each}}

@@ -11,14 +11,14 @@
         <div>
           <div>
             <p>saved notes here</p>
-            {{#each articles}}
               {{>saved-notes}}
-            {{/each}}
           </div>
         </div>
-        <input type="text" class="note-title" name="title" placeholder="add title">
-        <input type="textbox" class="note-body" name="note-body" placeholder="add message">
-        <button type="button" class="save-note" data-id="{{this._id}}">Save Note</button>
+        <form action="" data-formid={{this._id}}>
+          <input type="text" class="note-title" name="title" placeholder="add title">
+          <input type="textbox" class="note-body" name="note-body" placeholder="add message">
+          <button type="button" class="save-note" data-saveid="{{this._id}}">Save Note</button>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -87,7 +87,7 @@ app.get("/saved", function(req,res) {
 });
 
 // Mark article as saved in DB
-app.put("/api/note/saved", function(req,res) {
+app.put("/api/article/saved", function(req,res) {
 
   console.log(req.body.id)
   console.log("saved route hit");
@@ -98,22 +98,25 @@ app.put("/api/note/saved", function(req,res) {
     {$set: {"saved": true}
   }).then(function(dbResponse){
      // Maybe do this client side
-    res.redirect("/saved");
+    res.json(dbResponse);
   });
 });
 
-app.get("/api/notes/:id", function(req, res){
+// **** DONT NEED this route*****
 
-  db.Article
-  .findOne({_id: req.params.id})
-  .populate("note")
-  .then(function(dbArticle){
-    res.render("saved", {notes: dbArticle});
-  })
-  .catch(function(err) {
-    res.json(err);
-  })
-})
+// app.get("/api/notes/:id", function(req, res){
+
+//   db.Article
+//   .findOne({_id: req.params.id})
+//   .populate("note")
+//   .then(function(dbArticle){
+//     // res.render("saved", {notes: dbArticle});
+//     res.json(dbArticle);
+//   })
+//   .catch(function(err) {
+//     res.json(err);
+//   })
+// })
 // Post create new note associated with Article PUSH to array
 app.post("/api/note", function(req,res) {
   
@@ -122,23 +125,25 @@ app.post("/api/note", function(req,res) {
     body: req.body.body
   }
 
+  console.log(req.body);
   db.Note
   .create(newNote)
   .then(function(dbNote) {
-    return db.Article.findOneAndUpdate({
-       _id: req.body.articleId }, { $push: { note: dbNote._id }}, { new: true });
+    console.log("This is after creating note ", dbNote)
+    return db.Article.update({
+       "_id": req.body.articleId }, { $push: { "note": dbNote._id }}, { "new": true });
     })
   .then(function(dbArticle) {
-    res.json(dbArticle);
+    res.end();
   })
   .catch(function(err) {
     res.json(err);
   });
 });
 
-// Remove note from saved
+// Remove article from saved
 
-app.put("/api/note/remove", function(req,res) {
+app.put("/api/article/remove", function(req,res) {
 
   console.log(req.body.id)
   console.log("removed route hit");
@@ -149,10 +154,25 @@ app.put("/api/note/remove", function(req,res) {
     {$set: {"saved": false}
   }).then(function(dbResponse){
     console.log("note removed")
-  });
-  // Maybe do this client side
-  res.redirect("/saved");
+    res.end();
+  })
+  .catch(function(err){
+    res.json(err);
+  })
 });
+
+app.delete("/api/delete/:id", function(req,res){
+  console.log("this is the delete note route")
+  console.log(req.params.id);
+
+  db.Note
+  .deleteOne({
+    _id: req.params.id 
+  }).then(function(dbResponse){
+    console.log(dbResponse);
+    res.end();
+  })
+})
 
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");

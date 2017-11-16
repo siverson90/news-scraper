@@ -18,10 +18,10 @@ $( document ).ready(function() {
 
         var obj = {
             id: article
-        }
+        };
         // ajax call for put 
         $.ajax({
-          url: "api/note/saved",
+          url: "api/article/saved",
           data: obj,
           method: "PUT"
         }).done(function(dbSaved) {
@@ -32,18 +32,18 @@ $( document ).ready(function() {
     })
 
     // client-side: remove article from saved list
-    $(".remove-notes-btn").on("click", function(result) {
+    $(".remove-article-btn").on("click", function(result) {
 
         console.log("remove note hit");
 
-        var article = $(this).data('id');
+        var article = $(this).data('deleteid');
 
         var obj = {
             id: article
         }
 
         $.ajax({
-          url: "api/note/remove",
+          url: "api/article/remove",
           data: obj,
           method: "PUT"
         }).done(function(dbSaved) {
@@ -55,13 +55,13 @@ $( document ).ready(function() {
     $(".article-notes-btn").on("click", function(result){
         console.log("create note button");
 
-        var articleId = $(this).data('id');
+        var articleId = $(this).data('cardid');
         console.log(articleId);
 
-        $.get("/api/notes/" + articleId, function(result){
+        // $.get("/api/notes/" + articleId, function(result){
 
             sendArticleId(articleId);
-        })
+        // })
     })
 
     function sendArticleId(articleId){
@@ -71,8 +71,8 @@ $( document ).ready(function() {
 
             console.log(articleId);
             
-            const title = $(".note-title").val();
-            const body = $(".note-body").val();
+            let title = $(this).parent().find(".note-title").val();
+            let body = $(this).parent().find(".note-body").val();
 
             var noteObj = {
                 articleId: articleId,
@@ -80,6 +80,7 @@ $( document ).ready(function() {
                 body: body
             }
             
+            console.log("sending this data over to " , noteObj);
             $.ajax({
                 method: "POST",
                 url: "/api/note",
@@ -87,10 +88,25 @@ $( document ).ready(function() {
             })
             .done(function(data){
                 console.log(data);
+                var url = window.location;
+
             });
         });
     }
     
+    $(".delete-note").on("click", function(event){
+        console.log("delete note clicked")
+
+        var deleteId = $(this).data("id");
+
+        $.ajax({
+            method: "DELETE",
+            url: "/api/delete/" + deleteId
+        })
+        .done(function(data){
+            console.log(data);
+        })
+    })
 
     // client-side: create a note for an article and show existing notes
 
