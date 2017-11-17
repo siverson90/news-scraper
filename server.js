@@ -102,22 +102,6 @@ app.put("/api/article/saved", function(req,res) {
   });
 });
 
-// **** DONT NEED this route*****
-
-// app.get("/api/notes/:id", function(req, res){
-
-//   db.Article
-//   .findOne({_id: req.params.id})
-//   .populate("note")
-//   .then(function(dbArticle){
-//     // res.render("saved", {notes: dbArticle});
-//     res.json(dbArticle);
-//   })
-//   .catch(function(err) {
-//     res.json(err);
-//   })
-// })
-// Post create new note associated with Article PUSH to array
 app.post("/api/note", function(req,res) {
   
   var newNote = {

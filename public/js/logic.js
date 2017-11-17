@@ -108,6 +108,10 @@ $( document ).ready(function() {
         })
     })
 
+    $(".close").on("click", function(event) {
+        location.reload();
+    })
+
     // client-side: create a note for an article and show existing notes
 
     // client-side: deleted note

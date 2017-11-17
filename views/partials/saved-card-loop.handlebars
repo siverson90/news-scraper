@@ -1,10 +1,13 @@
-<div class="card col-12-md">
+
+{{!-- Saved Article info --}}
+<div class="card">
   <div class="card-body">
     <h4 class="card-title">{{this.headline}}</h4>
     <p class="card-text">{{this.summary}}</p>
     <p class="card-text">{{this.url}}</p>
     <a data-cardId={{this._id}} class="btn btn-primary article-notes-btn" data-toggle="modal" data-target="#{{this._id}}">Article Notes</a>
-{{!--     <button type="button" class="btn btn-info btn-lg">Open Modal</button> --}}
     <a data-deleteId="{{this._id}}" class="btn btn-primary remove-article-btn">Delete Article from Saved</a>
   </div>
 </div>
+
+

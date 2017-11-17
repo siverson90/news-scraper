@@ -1,0 +1,9 @@
+      <div class="row">
+        {{#each note}}
+          <div class="col-4-md">{{this.title}}</div>
+          <div class="col-4-md">{{this.body}}</div>
+           <div class="col-4-md"></div>
+          <button class="delete-note col-4-md" data-id="{{this._id}}">Remove note</button>
+        {{/each}}
+        </div>
+      </div>

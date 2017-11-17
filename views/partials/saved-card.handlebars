@@ -1,10 +1,10 @@
-<section class="wrapper">
-    <div class="container">
+<section class="wrapper saved-div">
+    {{#each articles}}
         <div class="row">
-            {{#each articles}}
-                {{>saved-card-loop}}
-                {{>modal}}
-             {{/each}}   
+          {{>modal}}
+          {{>saved-card-loop}}
         </div>
-    </div>
+     {{/each}}
 </section>
+
+
